@@ -1,4 +1,4 @@
-package dayXX
+package day03
 
 import utils.checkResult
 import utils.readInput
