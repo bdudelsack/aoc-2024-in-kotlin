@@ -13,6 +13,7 @@ kotlin {
 
 dependencies {
     implementation(libs.kotlinx.coroutines.core)
+    implementation("com.github.ajalt.mordant:mordant:3.0.1")
     testImplementation(kotlin("test"))
 }
 
