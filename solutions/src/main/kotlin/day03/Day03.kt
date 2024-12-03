@@ -3,36 +3,25 @@ package dayXX
 import utils.checkResult
 import utils.readInput
 
-val pattern = Regex("""mul\((\d{1,3}),(\d{1,3})\)""")
-val patternWithInstructions = Regex("""mul\((\d{1,3}),(\d{1,3})\)|do\(\)|don't\(\)""")
-
-fun part1(lines: List<String>): Int {
-    val matches = pattern.findAll(lines.joinToString()).toList()
-
-    val res = matches.sumOf {
+fun part1(lines: List<String>) = Regex("""mul\((\d{1,3}),(\d{1,3})\)""")
+    .findAll(lines.joinToString()).sumOf {
         Integer.parseInt(it.groups[1]!!.value) * Integer.parseInt(it.groups[2]!!.value)
     }
 
-    return res
-}
-
-fun part2(lines: List<String>): Int {
-    val matches = patternWithInstructions.findAll(lines.joinToString()).toList()
-    var enabled = true
-    var sum = 0
-
-    matches.forEach { match ->
+fun part2(lines: List<String>) = Regex("""mul\((\d{1,3}),(\d{1,3})\)|do\(\)|don't\(\)""")
+    .findAll(lines.joinToString()).fold(Pair(0, true)) { acc, match ->
         when {
-            match.groups[0]!!.value.startsWith("don't") -> { enabled = false }
-            match.groups[0]!!.value.startsWith("do") -> { enabled = true }
-            enabled -> {
-                sum += Integer.parseInt(match.groups[1]!!.value) * Integer.parseInt(match.groups[2]!!.value)
+            match.groups[0]!!.value.startsWith("don't") -> Pair(acc.first, false)
+            match.groups[0]!!.value.startsWith("do") -> Pair(acc.first, true)
+            acc.second -> {
+                Pair(
+                    acc.first + Integer.parseInt(match.groups[1]!!.value) * Integer.parseInt(match.groups[2]!!.value),
+                    true
+                )
             }
+            else -> acc
         }
-    }
-
-    return sum
-}
+    }.first
 
 fun main() {
     val testInput = readInput("day03/test")
