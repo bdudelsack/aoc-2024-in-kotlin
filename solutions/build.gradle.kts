@@ -20,3 +20,20 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+tasks.register<Copy>("initDay") {
+    var day = "00"
+
+    if(project.hasProperty("day")) {
+        day = project.property("day").toString()
+    }
+
+    println("Project dir: $projectDir")
+
+    from(fileTree("${projectDir}/template/").files)
+
+    into("${projectDir}/src/main/kotlin/day${day}/")
+    rename("DayXX.kt.tmpl", "Day${day}.kt")
+
+    expand("day" to day)
+}

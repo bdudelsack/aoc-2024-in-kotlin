@@ -1,4 +1,4 @@
-package dayXX
+package day${day}
 
 import utils.checkResult
 import utils.readInput
@@ -12,11 +12,11 @@ fun part2(lines: List<String>): Int {
 }
 
 fun main() {
-    val testInput = readInput("dayXX/test")
+    val testInput = readInput("day${day}/test")
     checkResult(part1(testInput), 0)
     checkResult(part2(testInput), 0)
 
-    val input = readInput("dayXX/input")
-    println("Part 1: ${part1(input)}")
-    println("Part 2: ${part2(input)}")
+    val input = readInput("day${day}/input")
+    println("Part 1: \${part1(input)}")
+    println("Part 2: \${part2(input)}")
 }
