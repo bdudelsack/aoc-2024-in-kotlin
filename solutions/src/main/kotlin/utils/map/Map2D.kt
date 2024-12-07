@@ -19,14 +19,24 @@ class Map2D<T>(initData: List<List<T>>): Iterable<T> {
     operator fun set(x: Int, y: Int, value: T) = value.also { data[y][x] = it }
 
     fun print() {
+        println(toString())
+    }
+
+    override fun toString(): String {
+        val sb = StringBuilder()
+
         for(y in 0 until height) {
             for(x in 0 until width) {
-                print(get(x,y))
-                print(" ")
+                sb.append(get(x,y))
+                sb.append(" ")
             }
-            println()
+            sb.appendLine()
         }
+
+        return sb.toString()
     }
+
+    fun contains(pt: Point) = pt.x in 0 until  width && pt.y in 0 until  height
 
     fun<R> map(transform: (T, Int, Int) -> R): Map2D<R> {
         val data = data.mapIndexed { y, line ->
@@ -55,6 +65,7 @@ class Map2D<T>(initData: List<List<T>>): Iterable<T> {
     }
 
     fun isValid(pt: Point) = pt.x >= 0 && pt.y >= 0 && pt.x < width && pt.y < height
+    fun clone(): Map2D<T> = Map2D(data)
 
     fun neighbors(pt: Point) = listOf(
         Point(-1, -1),
