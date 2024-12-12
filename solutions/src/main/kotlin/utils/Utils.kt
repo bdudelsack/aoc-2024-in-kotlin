@@ -20,7 +20,7 @@ fun<T> checkResult(result: T, expected: T) = check(result == expected) { "Check 
 
 inline fun<reified T> T.println() = this.also { println(this) }
 
-data class Point(val x: Int, val y: Int) {
+data class Point(val x: Int, val y: Int): Comparable<Point> {
     companion object {
         fun fromString(input: String): Point {
             val (x, y) = input.trim().split(",").map { it.toInt() }
@@ -39,6 +39,18 @@ data class Point(val x: Int, val y: Int) {
     fun dist(pt: Point): Point {
         return Point(abs(x - pt.x), abs(y - pt.y))
     }
+
+    override fun compareTo(other: Point): Int {
+        return if(x != other.x) {
+            x.compareTo(other.x)
+        } else {
+            y.compareTo(other.y)
+        }
+    }
+
+    override fun toString(): String {
+        return "$x,$y"
+    }
 }
 
 data class Line(val start: Point, val end: Point) {
@@ -47,6 +59,10 @@ data class Line(val start: Point, val end: Point) {
             val (start, end) = input.trim().split("->").map { Point.fromString(it) }
             return Line(start, end)
         }
+    }
+
+    override fun toString(): String {
+        return "$start -> $end"
     }
 }
 

@@ -5,7 +5,7 @@ import utils.Point
 /**
  * Generic 2D Map Class
  */
-class Map2D<T>(initData: List<List<T>>): Iterable<T> {
+open class Map2D<T>(initData: List<List<T>>): Iterable<T> {
     private val data = initData.map { it.toMutableList() }.toMutableList()
     val height: Int get() = data.size
     val width: Int get() = data.first().size
@@ -67,16 +67,8 @@ class Map2D<T>(initData: List<List<T>>): Iterable<T> {
     fun isValid(pt: Point) = pt.x >= 0 && pt.y >= 0 && pt.x < width && pt.y < height
     fun clone(): Map2D<T> = Map2D(data)
 
-    fun neighbors(pt: Point) = listOf(
-        Point(-1, -1),
-        Point(0, -1),
-        Point(1, -1),
-        Point(-1, 0),
-        Point(1, 0),
-        Point(-1, 1),
-        Point(0, 1),
-        Point(1, 1),
-    ).map { pt + it }.filter { isValid(it) }
+    fun neighbors(pt: Point) = Direction.entries.map { pt + it.pt }.filter { isValid(it) }
+    fun neighborsOrtho(pt: Point) = OrthoDirection.entries.map { pt + it.pt }.filter { isValid(it) }
 
     fun rows() = RowsAccess(this)
     fun cols() = ColsAccess(this)
@@ -100,4 +92,23 @@ class Map2D<T>(initData: List<List<T>>): Iterable<T> {
 
     override fun iterator(): Iterator<T> = MapIterator(this)
     fun indexedIterator() = MapIndexedIterator(this)
+
+    enum class OrthoDirection(val pt: Point) {
+        UP(Point(0,-1)),
+        DOWN(Point(0,1)),
+        LEFT(Point(-1,0)),
+        RIGHT(Point(1,0))
+    }
+
+    enum class Direction(val pt: Point) {
+        S(Point(0, 1)),
+        N(Point(0, -1)),
+        E(Point(1, 0)),
+        W(Point(-1, 0)),
+
+        NE(Point(1, -1)),
+        SE(Point(1, 1)),
+        SW(Point(-1, 1)),
+        NW(Point(-1, -1))
+    }
 }
