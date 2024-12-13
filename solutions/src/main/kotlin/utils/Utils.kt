@@ -36,6 +36,10 @@ data class Point(val x: Int, val y: Int): Comparable<Point> {
         return Point(x - pt.x, y - pt.y)
     }
 
+    operator fun times(i: Int): Point {
+        return Point(x * i, y * i)
+    }
+
     fun dist(pt: Point): Point {
         return Point(abs(x - pt.x), abs(y - pt.y))
     }

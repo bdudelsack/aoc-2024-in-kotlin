@@ -14,6 +14,7 @@ kotlin {
 dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation("com.github.ajalt.mordant:mordant:3.0.1")
+    implementation("org.apache.commons:commons-math3:3.6.1")
     testImplementation(kotlin("test"))
 }
 
