@@ -38,3 +38,10 @@ tasks.register<Copy>("initDay") {
 
     expand("day" to day)
 }
+
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs += "-Xcontext-receivers"
+    }
+}
